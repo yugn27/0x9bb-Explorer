@@ -337,7 +337,7 @@ function generateWallet () {
 
 
 
-      currentAddress = address
+      //currentAddress = address
 
       walletMode = 'web'
 
@@ -407,7 +407,7 @@ function loadWallet () {
 
       keystore.generateNewAddress(pwDerivedKey, 1)
 
-      currentAddress = keystore.getAddresses()[0]
+      //currentAddress = keystore.getAddresses()[0]
 
       walletMode = 'web'
 
@@ -483,7 +483,7 @@ function recoverWallet () {
 
         keystore.generateNewAddress(pwDerivedKey, 1)
 
-        currentAddress = keystore.getAddresses()[0]
+        //currentAddress = keystore.getAddresses()[0]
 
         walletMode = 'web'
 
@@ -521,7 +521,7 @@ function detectWeb3 () {
 
     web3Mode = 'metamask'
 
-    currentAddress = web3js.eth.accounts[0]
+    //currentAddress = web3js.eth.accounts[0]
 
   } else {
 
@@ -1255,7 +1255,7 @@ function updateData () {
 
     loggedIn = typeof web3js.eth.defaultAccount !== 'undefined' && web3js.eth.defaultAccount !== null
 
-    currentAddress = web3js.eth.defaultAccount
+    //currentAddress = web3js.eth.defaultAccount
 
     $('#meta-mask-ui').removeClass('wallet-web').addClass('wallet-mm')
 
