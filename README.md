@@ -1,4 +1,4 @@
-# DGS
+# 0x9bb-Explorer
 0x9bb Explorer allows you to explore any addresses current balance in ether, the current balance in WBTC, dividends, referral dividends, token balance, combined dividends, the current value of tokens, referral link, and a direct link to Etherscan.
 https://yugn27.github.io/0x9bb-Explorer/
 
