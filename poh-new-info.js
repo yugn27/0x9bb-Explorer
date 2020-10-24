@@ -1493,7 +1493,7 @@ contract.sellPrice(function (e, r) {
     $('.poh-sell-usd').text('(' + Number((sellPriceeth * btcPrice).toFixed(2)).toLocaleString() + ' ' + currency + ')')
     	 sellPrice=Number((sellPrice * btcPrice).toFixed(8)).toLocaleString();
     
-    $('.poh-value2').text(Number((sellPriceeth * tokenAmountglobal).toFixed(8)).toLocaleString() + ' ' + 'BTC')
+    $('.poh-value2').text(((sellPriceeth * tokenAmountglobal).toFixed(8)).toLocaleString() + ' ' + 'BTC')
 
     var currrecycalculate = sellPriceeth * tokenAmountglobal;
     $('.poh-value-usd').text('(' + Number((currrecycalculate * btcPrice).toFixed(2)).toLocaleString() + ' ' + currency + ')')
