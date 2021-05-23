@@ -1,652 +1,192 @@
-<head>
-    <title>0x9bb | Explorer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="google-language.css">
-    <link rel="stylesheet" href="dashicons.min.css">
-    <link rel="stylesheet" href="semantic.css">
-     <link rel="stylesheet" href="main.css">
-	
-		<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="style.css">
-
-    <link rel="stylesheet" href="token_sale.css">
-	
-	 <!-- The legacy-web3 script must run BEFORE your other scripts. -->
-    <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.min.js"></script>
-	        <script>
-			
-			
-window.addEventListener('load', async () => {
-    // Modern dapp browsers...
-    if (window.ethereum) {
-        window.web3 = new Web3(ethereum);
-        try {
-            // Request account access if needed
-            await ethereum.enable();
-            // Acccounts now exposed
-            web3.eth.sendTransaction({/* ... */});
-        } catch (error) {
-            // User denied account access...
-        }
-    }
-    // Legacy dapp browsers...
-    else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
-        // Acccounts always exposed
-        web3.eth.sendTransaction({/* ... */});
-    }
-    // Non-dapp browsers...
-    else {
-        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
-    }
-});
-			
-            window.addEventListener('load', function () {
-
-                // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-                if (typeof web3 !== 'undefined') {
-
-                    // Use the browser's ethereum provider
-                    var provider = web3.currentProvider
-
-                } else {
-                    document.getElementById("metamask_error").style.display = "block";
-                    if ($(window).width() < 1025) {
-                        document.getElementById("metamask_error").innerHTML = '<div id="alert-install-metamask" class="top-alert hidden">You will need Trust Wallet to communicate with Gandhiji Dapp. Click <a href="https://trustwallet.com/" style="color:#000" target="_blank">Here</a> to download.</div>';
-                    } else {
-                        document.getElementById("metamask_error").innerHTML = '<div id="alert-install-metamask" class="top-alert hidden">You will need Metamask to communicate with Gandhiji . Click <a href="https://metamask.io/" style="color:#000" target="_blank">Here</a> to download.</div>';
-                    }
-                }
-                web3.eth.getAccounts(function (err, accounts) {
-
-                    //console.log(accounts);
-
-                    if (err != null)
-                        console.error("An error occurred: " + err);
-                    else if (accounts.length == 0)
-                    {
-                        document.getElementById("metamask_error").style.display = "block";
-                        document.getElementById("metamask_error").innerHTML = '<div class="metamask_error_inner">Please unlock Metamask and refresh the page</div>';
-
-                    }
-
-                });
-
-            })
-        </script>
-<script type="text/javascript">
-    function getCookie(name) {
-        var dc = document.cookie;
-        var prefix = name + "=";
-        var begin = dc.indexOf("; " + prefix);
-
-        if (begin == -1) {
-            begin = dc.indexOf(prefix);
-            if (begin != 0)
-                return null;
-        } else
-        {
-            begin += 2;
-            var end = document.cookie.indexOf(";", begin);
-            if (end == -1) {
-                end = dc.length;
-            }
-        }
-
-        return decodeURI(dc.substring(begin + prefix.length, end));
-    }
-
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var theCookie = "ref=" + url.searchParams.get("ref");
-
-    if (url.searchParams.get("ref") !== null) {
-        var toSet = "ref=" + url.searchParams.get("ref");
-        document.cookie = theCookie;
-    } else {
-
-        var refCookie = getCookie("ref");
-
-        if (refCookie === null) {
-            console.log("Ref cookie was null. Setting to default.");
-            document.cookie = "ref=0x6B4663A3966d08Af961C64486010febBb1358925";
-        } else {
-            // do nothing if the cookie is already set and there is no new mnode link	
-        }
-    }
-	
-	
-</script>    
-</head>
-<body>
-<div style="padding-top: 10px; text-align: center;">
-                        Account ref link:<div id="quoteDisplay"></div><button onclick="CopyToClipboard('quoteDisplay')" class="ui button large primary" style="margin-bottom: 20px;">Copy referal link</button>
-                        <br>
-                         Etherscan link:<div id="quoteDisplay2"></div><button onclick="CopyToClipboard('quoteDisplay2')" class="ui button large primary" style="margin-bottom: 20px;">Copy Etherscan link</button>
-	</div>
-                        <script>
-
-                            function whenAvailable(name, callback) {
-                                var interval = 10;
-                                window.setTimeout(function () {
-                                    if (window[name]) {
-                                        callback(window[name]);
-                                    } else {
-                                        window.setTimeout(arguments.callee, interval);
-                                    }
-                                }, interval);
-                            }
-
-                            whenAvailable("web3js", function () {
-                                if (web3js.eth.accounts[0] !== null) {
-                                    var element = "<a href='https://yugn27.github.io/DGS/?ref=" + currentAddress + "'>https://yugn27.github.io/DGS/?ref=" + currentAddress + "</a>";
-                                    $("#quoteDisplay").append(element);
-
-                                    var etherscanLink = "<a href='https://etherscan.io/address/" + currentAddress + "'>https://etherscan.io/address/" + currentAddress + "</a>";
-                                    $("#quoteDisplay2").append(etherscanLink);
-                                }
-
-                            });
-
-                            function CopyToClipboard(containerid) {
-                                if (document.selection) {
-                                    var range = document.body.createTextRange();
-                                    range.moveToElementText(document.getElementById(containerid));
-                                    range.select().createTextRange();
-                                    document.execCommand("copy");
-
-                                } else if (window.getSelection) {
-                                    var range = document.createRange();
-                                    range.selectNode(document.getElementById(containerid));
-                                    window.getSelection().addRange(range);
-                                    document.execCommand("copy");
-                                    //alert("text copied") 
-                                }
-                            }
-					
-							function attachEvents() {
-
-	// Always start from 10 blocks behind
-	web3js.eth.getBlockNumber(function(error, result) {
-		console.log("Current Block Number is", result);
-	  	contract.allEvents({
-			fromBlock: result - 17,
-		},function(e, result) {
-			// console.log('Current user - ', web3.eth.accounts[0])
-			let currentUserEvent = web3.eth.accounts[0] == result.args.customerAddress;
-			// console.log('Found new transaction');
-			// console.log(alertify);
-			// if (currentUserEvent) {
-			// 	alertify.logPosition('bottom left');
-			// } else {
-			// 	alertify.logPosition('bottom right');
-			// }
-			switch(result.event) {
-				case 'onTokenPurchase':
-					if (currentUserEvent) {
-							alertify.success('Your buy order is confirmed! You spent ' + result.args.incomingEthereum.div(1000000000000000000).toFixed(4) + ' ETH and received ' + result.args.tokensMinted.div(1000000000000000000).toFixed(4) + ' tokens.');
-					} else {
-							alertify.log('Someone else spent ' + result.args.incomingEthereum.div(1000000000000000000).toFixed(4) + ' ETH and received ' + result.args.tokensMinted.div(1000000000000000000).toFixed(4) + ' tokens.');
-					}
-					if (!muteSound) {
-						buySound.play();
-					}
-					break;
-				case 'onTokenSell':
-					if (currentUserEvent) {
-							alertify.success('Your sell order is confirmed! You received ' + result.args['ethereumEarned'].div(1000000000000000000).toFixed(4) + ' ETH for ' + result.args.tokensBurned.div(1000000000000000000).toFixed(4) + ' tokens.');
-					} else {
-							alertify.log('Someone else sold tokens. They received ' + result.args['ethereumEarned'].div(1000000000000000000).toFixed(4) + ' ETH for ' + result.args.tokensBurned.div(1000000000000000000).toFixed(4) + ' tokens.');
-					}
-					if (!muteSound) {
-						sellSound.play()
-					}
-					break;
-				case 'onWithdraw':
-					if (currentUserEvent) {
-						alertify.success('Your withdrawal request is confirmed! You received ' + result.args['ethereumWithdrawn'].div(1000000000000000000).toFixed(4) + '.');
-					}
-					if (!muteSound) {
-						sellSound.play();
-					}
-					break;
-				case 'onReinvestment':
-					if (currentUserEvent) {
-						alertify.success('You reinvestment order is confirmed! You received ' + result.args.tokensMinted.div(1000000000000000000).toFixed(4) + ' tokens for reinvesting ' + result.args.ethereumReinvested.div(1000000000000000000).toFixed(4) + 'ETH');
-					} else {
-						alertify.success('Someone reinvested ' + result.args.ethereumReinvested.div(1000000000000000000).toFixed(4) + ' ETH and received ' + result.args.tokensMinted.div(1000000000000000000).toFixed(4) + '. tokens.');
-					}
-					if (!muteSound) {
-						buySound.play();
-					}
-					break;
-				case 'Transfer':
-					if (currentUserEvent) {
-						alertify.success('Your transfer order is confirmed! ' + result.args['to'] + ' received ' + result.args['tokens'].div(1000000000000000000).toFixed(4) + ' tokens.');
-					}
-					break;
-			}
-		})
-	})
-}
-
-                        </script>                     
-<div class="ui container" >
-                        <div class="ui stackable grid">
-                            <div class="ui sixteen wide column interface dimmable wallet-mm logged-in" id="meta-mask-ui">
-                                <div class="ui stackable grid">
-                                    <div class="ui five wide column center aligned" id="buy-panel">
-                                        <div class="inner">
-                                            <div class="spinning-logo">
-                                                <img src="https://i.imgur.com/UhFbl9V.png">
-                                            </div>
-
-
-                                            
-
-                                            	
-
-                                            
-
-
-
-                                            
-
-
-                                            
-
-
-                        <div class="when-logged-in" id="address-balance">
-                                                Balance: <span class="address-balance">0 ETH</span><br>
-                                                Balance: <span class="address-balance-btc">0 BTC</span><br>
-
-
-                                                <span class="number-of-tokens"></span>
-                                            </div>
-
-
-                                          
-
-                                           
-
-                                            	
-
-                                            <div id="currency-selector">
-                                                Select your currency:                                <select id="currency">
-                                                    <option>USD</option>
-                                                    <option>AUD</option>
-                                                    <option>BRL</option>
-                                                    <option>CAD</option>
-                                                    <option>CHF</option>
-                                                    <option>CLP</option>
-                                                    <option>CNY</option>
-                                                    <option>CZK</option>
-                                                    <option>DKK</option>
-                                                    <option>EUR</option>
-                                                    <option>GBP</option>
-                                                    <option>HKD</option>
-                                                    <option>HUF</option>
-                                                    <option>IDR</option>
-                                                    <option>ILS</option>
-                                                    <option>INR</option>
-                                                    <option>JPY</option>
-                                                    <option>KRW</option>
-                                                    <option>MXN</option>
-                                                    <option>MYR</option>
-                                                    <option>NOK</option>
-                                                    <option>NZD</option>
-                                                    <option>PHP</option>
-                                                    <option>PKR</option>
-                                                    <option>PLN</option>
-                                                    <option>RUB</option>
-                                                    <option>SEK</option>
-                                                    <option>SGD</option>
-                                                    <option>THB</option>
-                                                    <option>TRY</option>
-                                                    <option>TWD</option>
-                                                    <option>ZAR</option>
-                                                </select>
-						<br /><br />
-
-
-						
-
-
-
-            
-
-
-
-
-                    
-										
-									
-
-					
-
-
-
-            
-
-
-
-
-
-						
-
-
-           
-										
-
-
-
-
-
-
-           
-						
-						<br>
-						
-
-
-
-
-            
-
-
-
-
-
-						    
-                                            </div>
-
-
-
-
-
-<!--
-                                            <div class="when-logged-in">
-                                               
-                                                <img src="https://i.imgur.com/UhFbl9V.png" style="width: 50%;margin-top: 25px;">
-                                            </div>
-						
-                                            <div class="transfer-tokens">
-											  <div class="title"><h3 style="margin-bottom: 5px;">Transfer Tokens (10% Fee on Transfer):</h3></div>
-											  <input type="text" style="margin-bottom: 5px;" id="transfer-address" class="when-logged-in input-amount" style="height:45px" placeholder="Address...">
-											  <input type="number" style="margin-bottom: 5px;" id="transfer-amount" min="0" step="0.01" class="when-logged-in input-amount" placeholder="Tokens...">
-											  <div class="when-logged-in" id="transfer-warn">
-												   <span class="approx" style="margin-bottom: 5px;">Type in a valid address and token amount..Dividends will be withdrawn on transfer</span>
-											  </div>
-											  <button id="transfer-tokens-btn" style="margin-bottom: 5px;" class="ui primary huge button when-logged-in">Transfer Tokens</button>
-											</div>
-
-                      -->
-                                            
-                                        
-
-                                            <div class="when-wallet-web">
-                                                <a href="#" id="wallet-open">Wallet Management</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="ui eleven wide column" id="value-panel">
-                                        <div class="ui stackable relaxed grid">
-                                            <div class="ui eight wide column">
-                                                <div class="price-box">
-                                                    <div class="title">Contract Balance</div>
-                                                    <a href="https://etherscan.io/address/0x9bb4404231056B105aFCD2861E6b2F5284de5b97" target="_blank"><div class="value"><span class="contract-balance-btc">0.0000</span> BTC</div></a> 
-                                                    <div class="contract-balance-usd2 value-usd">(0 USD)</div>
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="ui eight wide column">
-                                                <div class="price-box">
-                                                    <div class="title">Total Supply</div>
-                                                    <div class="contract-tokens value">0</div>
-                                                    <div class="contract-tokens-usd value-usd"></div>
-                                                </div>
-                                            </div>	
-
-                                            <div class="ui eight wide column">
-                                                <div class="price-box">
-                                                    <div class="title">Buy Price</div>
-                                                    <div class="poh-buy value">0.000000 BTC</div>
-                                                    <div class="poh-buy-usd value-usd">(0 USD)</div>
-                                                </div>
-                                            </div>
-                                            <div class="ui eight wide column">
-                                                <div class="price-box">
-                                                    <div class="title">Sell Price</div>
-                                                    <div class="poh-sell value">0.000000 BTC</div>
-                                                    <div class="poh-sell-usd value-usd">(0 USD)</div>
-                                                </div>
-                                            </div>
-                                            <div class="ui eight wide column when-logged-in">
-                                                <div class="price-box blue token-balance">
-                                                    <div class="title">Dividends</div>
-                                                    <div class="poh-nonrefdiv-btc value">0.000000 BTC</div>
-                                                </div>
-                                            </div>
-                                            <div class="ui eight wide column when-logged-in">
-                                                <div class="price-box blue token-balance">
-                                                    <div class="title">Referral Dividends</div>
-                                                    <div class="poh-refdiv-btc value">0.000000 BTC</div>
-                                                </div>
-                                            </div>
-                                            <div class="ui eight wide column when-logged-in">
-                                                <div class="price-box blue token-balance">
-                                                    <div class="title">Your Token Balance:</div>
-                                                    <div class="poh-balance value">0 Tokens</div>
-                                                </div>
-                                            </div>
-                                            <div class="ui eight wide column when-logged-in">
-                                                <div class="price-box blue">
-                                                    <div class="title">Combined Dividends</div>
-                                                    <div class="poh-refdiv value">0.000000 BTC</div>
-                                                    <div class="poh-div-usd2 value-usd">(0 USD)</div>
-                                                </div>
-                                            </div>
-                                            <div class="ui sixteen wide column when-logged-in">
-                                                <div class="price-box green">
-                                                    <div class="title">Current Value of Tokens:</div>
-                                                    <div class="poh-value2 value">0.0000 BTC</div>
-                                                    <div class="poh-value-usd value-usd">(0 USD)</div>
-                                                </div>
-                                            </div>
-                                            <div class="ui sixteen wide column when-logged-out">
-                                                <div class="login-box green">
-                                                    <div class="value">Please Log In to Meta Mask</div>
-                                                    <div class="value-usd">
-                                                        <p>install Metamask <a href="https://metamask.io/" target="_blank" > here</a> and put some Ether in it.</p>
-                                                        
-                                                        <p>For More instructions on how to use Meta Mask go <a href="https://metamask.io/" target="_blank" > here</a></p>
-                                                    </div>
-                                                    <!--<div class="ui equal width stackable grid login-options">
-                                                        <div class="ui column">
-                                                            <button id="generate-wallet" class="ui button large primary">Generate Wallet                                            </button>
-                                                            <p>
-                                                                Generates and displays a wallet seed. The supplied password is used to encrypt the wallet and store it securely.                                            </p>
-                                                        </div>
-                                                        <div class="ui column" id="unlock-wallet-container">
-                                                            <button id="unlock-wallet" class="ui button large secondary">Unlock Wallet                                            </button>
-                                                            <p>
-                                                                Unlocks the wallet currently encrypted and stored in this browser.                                            </p>
-                                                        </div>
-                                                        <div class="ui column">
-                                                            <button id="recover-wallet" class="ui button large">Restore Wallet                                            </button>
-                                                            <p>
-                                                                Restores a wallet from the supplied seed. The supplied password is used to encrypt the wallet and store it securely.                                            </p>
-                                                        </div>
-                                                    </div>-->
-                                                </div>
-                                            </div>
-                                            <div class="ui ten wide column traffic-message">
-                                                <svg class="svg-inline--fa fa-exclamation-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="exclamation-circle" role="img" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path></svg><!-- <i class="fas fa-exclamation-circle"></i> -->
-                                                Depending on the Ethereum network traffic, figures may be delayed.                            </div>
-                                            <div class="ui six wide column contract-balance-container">
-                                                Contract Balance:                                <span class="contract-balance-btc">0.0000</span> BTC
-                                            </div>
-                                            <div class="ui sixteen wide column when-logged-in" id="eth-address-container">
-                                                <strong>Account:</strong> <span id="eth-address"></span>
-                                            </div>
-                                            <div class="ui sixteen wide column">
-                                                <div id="transaction-history-container" style="display: none">
-                                                    <h2>Transaction History</h2>
-                                                    <div id="transaction-history">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                
-                                <div id="metamask-not-found" class="ui dimmer">
-                                    <div class="inner">
-                                        <h2 class="float-left">MetaMask Not Found</h2><br>
-                                        <p>To interact with the network, you must have <a href="https://metamask.io/">Metamask</a> installed and setup.</p>
-                                    </div>
-                                </div>
-                                <div id="metamask-detecting" class="ui dimmer transition hidden">
-                                    <div class="inner">
-                                        <h2 class="float-left">Detecting MetaMask</h2><br>
-                                        <p>Please wait while we try to load MetaMask</p>
-                                    </div>
-                                </div>
-                                <div id="seed-dimmer" class="ui dimmer">
-                                    <div class="inner">
-                                        <h2 class="float-left">Wallet Seed</h2><br>
-                                        <p><strong>WARNING</strong>
-                                            This is your wallet's seed. If you lose this, you lose access to your ETH and any IND along with it. This is only ever stored locally in your web browser. If you clear your browser data, generate a new wallet over an existing, or your computer dies, and you don't have this saved anywhere, nobody can recover this for you. Seriously, save it somewhere safe.</p>
-                                        <textarea id="wallet-seed">
-                                        </textarea>
-                                        <button class="ui button huge primary" id="close-seed">I Have Stored My Seed Somewhere Safe                        </button>
-                                    </div>
-                                </div>
-                                <div id="wallet-dimmer" class="ui dimmer">
-                                    <div class="inner">
-                                        <h2>Wallet Management</h2>
-                                        <h4>Balance: <span class="address-balance">2.355145 ETH</span></h4>
-                                        <hr>
-                                        <div class="ui equal width stackable grid">
-                                            <div class="ui column">
-                                                <h3>Send</h3>
-                                                <p>Send ETH to another address.</p>
-                                                <div class="center aligned actions">
-                                                    <input type="text" id="send-address" class="input-amount" placeholder="Destination address">
-                                                    <input type="number" id="send-amount" min="0" step="0.1" class="input-amount" placeholder="Amount in ETH (e.g. 0.5)">
-                                                    <button id="send-action" class="ui primary huge button">Send ETH</button>
-                                                </div>
-                                            </div>
-                                            <div class="ui column">
-                                                <h3>Receive</h3>
-                                                <p>
-                                                    To deposit ETH into this wallet, send ETH to your public address:                                </p>
-                                                <p id="eth-public-address">
-                                                  <a href="https://etherscan.io/address/0xb316d056b3d474e178011b31fe6d616b64dd6e2d" class="etherscan-link" target="_blank">0xb316d056b3d474e178011b31fe6d616b64dd6e2d</a> <a href="#" id="copy-eth-address"><svg class="svg-inline--fa fa-copy fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg><!-- <i class="fas fa-copy"></i> --></a>
-                                                </p>
-                                                <h3>Actions</h3>
-                                                <p>
-                                                    <a id="export-seed" href="#" class="ui button small">Export Seed</a>
-                                                    <a id="export-private-key" href="#" class="ui button small">Export Private Key</a>
-                                                    <a id="delete-wallet" href="#" class="ui button small">Delete Wallet</a>
-                                                </p>
-                                                <textarea id="exported-seed"></textarea>
-                                                <input type="text" id="exported-private-key">
-                                            </div>
-                                        </div>
-                                        <div class="ui center aligned" style="margin-top: 5em">
-                                            <a href="#" id="wallet-close" class="ui button huge secondary">Close</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="donate-dimmer" class="ui dimmer">
-                                    <div class="inner">
-                                        <h2 class="float-left">Donate to the IND Marketing Fund</h2><br>
-                                        <p>The donation address is a multi-sig wallet that requires two core developers to approve any withdrawals. Funds will be used solely for the purpose of advertising IND.</p>
-                                        <div class="center aligned actions">
-                                            <input type="number" id="donate-amount" min="0" step="0.1" class="input-amount" placeholder="Amount in ETH (e.g. 0.5)">
-                                            <button id="donate-action" class="ui primary huge button">Take my ETH</button>
-                                            <button id="donate-close" class="ui huge default button">Actually, Never Mind</button>
-                                        </div>
-                                        <p>If you prefer, you can send donations directly to <a href="https://etherscan.io/address/0xf7739b3dec6eb07761ad88b8f43f6357836be9c3" target="_blank">0xf7739b3dec6eb07761ad88b8f43f6357836be9c3</a></p>
-                                    </div>
-                                </div>
-                            </div>
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>0x9bb | Explorer</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+      <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.min.js"></script> 
+      <link rel="icon" type="image/ico" href="./assets/images/favicon.ico"/>
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">
+      <link rel="stylesheet" href="./assets/css/semantic.min.css">
+      <link rel="stylesheet" href="./assets/css/style.min.css">
+      <link rel="stylesheet" href="./assets/css/token_sale.min.css">
+   </head>
+   <body>
+      <div class="ui container" >
+         <div class="ui stackable grid">
+            <div class="ui sixteen wide column interface dimmable wallet-mm logged-in" id="meta-mask-ui">
+               <div class="ui stackable grid">
+                  <div class="ui five wide column center aligned" id="buy-panel">
+                     <div class="inner">
+                        <div class="spinning-logo">
+                           <img src="https://i.imgur.com/UhFbl9V.png">
                         </div>
-                    </div>
-                </div>
-                
-<!--            </div>
-            <div class="et_pb_column et_pb_column_1_4 et-last-child">
-                <div class="ind-sidebar">
-                    <div class="ind-sidebar-header">
-                        <p>Digital Asset and Blockchain Foundation of India with 61,572 supporters</p>
-                    </div>
-                    <div class="ind-sidebar-image">
-                        <img src="https://0x167.github.io/ui/high10.jpg" alt="">
-                    </div>
-                    <div class="ind-sidebar-content">
-                        <p>Petitioning <a href="#">Finance Minister Mr Arun and 2 others</a></p>
-                        <h3>Announce bitcoins and cryptocurrencies as legal</h3>
-                        <p>Bitcoin is not illegal as per existing laws. As per media reports, a parliamentary committee is setup to look into the future...</p>
-                    </div>
-                    <div class="ind-sidebar-footer">
-                        <a href="#">Read More</a>
-                        <h4>change.org</h4>
-                    </div>
-                </div>
+                        <div class="when-logged-in" id="address-balance">
+                           Balance: <span class="address-balance">0 ETH</span><br>
+                           Balance: <span class="address-balance-btc">0 BTC</span><br>
+                           <span class="number-of-tokens"></span>
+                        </div>
+                        <div id="currency-selector">
+                           Select your currency:                                
+                           <select id="currency">
+                              <option>USD</option>
+                              <option>AUD</option>
+                              <option>BRL</option>
+                              <option>CAD</option>
+                              <option>CHF</option>
+                              <option>CLP</option>
+                              <option>CNY</option>
+                              <option>CZK</option>
+                              <option>DKK</option>
+                              <option>EUR</option>
+                              <option>GBP</option>
+                              <option>HKD</option>
+                              <option>HUF</option>
+                              <option>IDR</option>
+                              <option>ILS</option>
+                              <option>INR</option>
+                              <option>JPY</option>
+                              <option>KRW</option>
+                              <option>MXN</option>
+                              <option>MYR</option>
+                              <option>NOK</option>
+                              <option>NZD</option>
+                              <option>PHP</option>
+                              <option>PKR</option>
+                              <option>PLN</option>
+                              <option>RUB</option>
+                              <option>SEK</option>
+                              <option>SGD</option>
+                              <option>THB</option>
+                              <option>TRY</option>
+                              <option>TWD</option>
+                              <option>ZAR</option>
+                           </select>
+                           <br /><br />
+                           <br>
+                        </div>
+                        <div class="when-wallet-web">
+                           <a href="#" id="wallet-open">Wallet Management</a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="ui eleven wide column" id="value-panel">
+                     <div class="ui stackable relaxed grid">
+                        <div class="ui eight wide column">
+                           <div class="price-box">
+                              <div class="title">Contract Balance</div>
+                              <a href="https://etherscan.io/address/0x9bb4404231056B105aFCD2861E6b2F5284de5b97" target="_blank">
+                                 <div class="value"><span class="contract-balance-btc">0.0000</span> BTC</div>
+                              </a>
+                              <div class="contract-balance-usd2 value-usd">(0 USD)</div>
+                           </div>
+                        </div>
+                        <div class="ui eight wide column">
+                           <div class="price-box">
+                              <div class="title">Total Supply</div>
+                              <div class="contract-tokens value">0</div>
+                              <div class="contract-tokens-usd value-usd"></div>
+                           </div>
+                        </div>
+                        <div class="ui eight wide column">
+                           <div class="price-box">
+                              <div class="title">Buy Price</div>
+                              <div class="poh-buy value">0.000000 BTC</div>
+                              <div class="poh-buy-usd value-usd">(0 USD)</div>
+                           </div>
+                        </div>
+                        <div class="ui eight wide column">
+                           <div class="price-box">
+                              <div class="title">Sell Price</div>
+                              <div class="poh-sell value">0.000000 BTC</div>
+                              <div class="poh-sell-usd value-usd">(0 USD)</div>
+                           </div>
+                        </div>
+                        <div class="ui eight wide column when-logged-in">
+                           <div class="price-box blue token-balance">
+                              <div class="title">Dividends</div>
+                              <div class="poh-nonrefdiv-btc value">0.000000 BTC</div>
+                           </div>
+                        </div>
+                        <div class="ui eight wide column when-logged-in">
+                           <div class="price-box blue token-balance">
+                              <div class="title">Referral Dividends</div>
+                              <div class="poh-refdiv-btc value">0.000000 BTC</div>
+                           </div>
+                        </div>
+                        <div class="ui eight wide column when-logged-in">
+                           <div class="price-box blue token-balance">
+                              <div class="title">Your Token Balance:</div>
+                              <div class="poh-balance value">0 Tokens</div>
+                           </div>
+                        </div>
+                        <div class="ui eight wide column when-logged-in">
+                           <div class="price-box blue">
+                              <div class="title">Combined Dividends</div>
+                              <div class="poh-refdiv value">0.000000 BTC</div>
+                              <div class="poh-div-usd2 value-usd">(0 USD)</div>
+                           </div>
+                        </div>
+                        <div class="ui sixteen wide column when-logged-in">
+                           <div class="price-box green">
+                              <div class="title">Current Value of Tokens:</div>
+                              <div class="poh-value2 value">0.0000 BTC</div>
+                              <div class="poh-value-usd value-usd">(0 USD)</div>
+                           </div>
+                        </div>
+                        <div class="ui sixteen wide column when-logged-out">
+                           <div class="login-box green">
+                              <div class="value">Please Log In to Meta Mask</div>
+                              <div class="value-usd">
+                                 <p>install Metamask <a href="https://metamask.io/" target="_blank" > here</a> and put some Ether in it.</p>
+                                 <p>For More instructions on how to use Meta Mask go <a href="https://metamask.io/" target="_blank" > here</a></p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="ui ten wide column traffic-message">
+                           <svg class="svg-inline--fa fa-exclamation-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="exclamation-circle" role="img" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                              <path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path>
+                           </svg>
+                           <!-- <i class="fas fa-exclamation-circle"></i> -->
+                           Depending on the Ethereum network traffic, figures may be delayed.                            
+                        </div>
+                        <div class="ui six wide column contract-balance-container">
+                           Contract Balance:                                <span class="contract-balance-btc">0.0000</span> BTC
+                        </div>
+                        <div class="ui sixteen wide column when-logged-in" id="eth-address-container">
+                           <strong>Account:</strong> <span id="eth-address"></span>
+                        </div>
+                        <div class="ui sixteen wide column">
+                           <div id="transaction-history-container" style="display: none">
+                              <h2>Transaction History</h2>
+                              <div id="transaction-history">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="metamask-not-found" class="ui dimmer">
+                  <div class="inner">
+                     <h2 class="float-left">MetaMask Not Found</h2>
+                     <br>
+                     <p>To interact with the network, you must have <a href="https://metamask.io/">Metamask</a> installed and setup.</p>
+                  </div>
+               </div>
+               <div id="metamask-detecting" class="ui dimmer transition hidden">
+                  <div class="inner">
+                     <h2 class="float-left">Detecting MetaMask</h2>
+                     <br>
+                     <p>Please wait while we try to load MetaMask</p>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>-->
-</div>
-	<div class="ui container volume-alert-wrap" style="display:none">
-			<div class="ui stackable grid">
-				<div class="ui sixteen wide column interface dimmable wallet-mm logged-in" id="meta-mask-ui">
-					<div class="ui sixteen wide column announcement-box left aligned">
-						
-						  
-						  <div class="volume-alert-textarea">
-						<textarea id="logger" rows="20" cols="100"></textarea>
-						</div>
-						
-						<div class="volume-alert-buttons">
-						
-						
-						<button id="normal" class="ui primary button">Normal sound</button>
-						<button id="eth1" class="ui primary button">higher 1 ETH sound</button>
-						<button id="eth10" class="ui primary button">higher 10 ETH sound</button>
-						</div>
-						
-						<div class="ui stackable relaxed grid">
-							<div class="ui eight wide column volume-alert-btn">
-								<b>DIV volume spread over token holders since open page:</b>
-							<h3 id="vol">0 ETH</h3>
-							</div>
-							<div class="ui eight wide column volume-alert-btn">
-							
-							<b>Total DIV contract has generated (includes sell div, needs time to update)</b>
-							<h3 id="totaldivs">0 ETH</h3>
-							</div>
-						</div>
-
-			</div>
-		</div>
+         </div>
       </div>
-     </div>
-
-	
-
-    <script src="jquery-3.1.1.min.js"></script>
-     <script src="semantic.min.js"></script>
-     <script src="common.js"></script> 
-     <script src="web3.js"></script>
-     <script src="lightwallet.min.js"></script>
-     <script src="poh-new-info.js"></script>
-     <script src="hexToken_abi.js"></script>
-	 <!--<script src="alert.js"></script>-->
-	
-</body>
+      </div>
+      </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="./assets/js/web3.min.js"></script>
+      <script src="./assets/js/main.min.js"></script>
+      <script src="./assets/js/wbtc.min.js"></script>
+   </body>
+</html>
